@@ -1,3 +1,6 @@
+;; NOT IN USE!!!
+;;
+
 ;; This is where your customizations should live
 
 ;; env PATH
@@ -10,7 +13,7 @@
 ;; values in order to set the width (in characters wide) and height
 ;; (in lines high) Emacs will have whenever you start it
 
-;; (setq initial-frame-alist '((top . 0) (left . 0) (width . 20) (height . 20)))
+(setq initial-frame-alist '((top . 0) (left . 0) (width . 120) (height . 40)))
 
 
 ;; Place downloaded elisp files in this directory. You'll then be able
@@ -25,6 +28,9 @@
 ;; Adding this code will make Emacs enter yaml mode whenever you open
 ;; a .yml file
 (add-to-list 'load-path "~/.emacs.d/vendor")
+;; repository for cider
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 ;; shell scripts
 (setq-default sh-basic-offset 2)
@@ -50,3 +56,32 @@
 
 ;; Save here instead of littering current directory with emacs backup files
 (setq backup-directory-alist `(("." . "~/.saves")))
+
+;; clipboard trick!
+(setq x-select-enable-clipboard t)
+
+(global-set-key "\C-x\C-b" 'buffer-menu)
+
+(windmove-default-keybindings)
+
+;;; Load paxedit functionality
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'paxedit)
+
+(add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
+(add-hook 'clojure-mode-hook 'paxedit-mode)
+
+(eval-after-load "paxedit"
+  '(progn (define-key paxedit-mode-map (kbd "M-<right>") 'paxedit-transpose-forward)
+          (define-key paxedit-mode-map (kbd "M-<left>") 'paxedit-transpose-backward)
+          (define-key paxedit-mode-map (kbd "M-<up>") 'paxedit-backward-up)
+          (define-key paxedit-mode-map (kbd "M-<down>") 'paxedit-backward-end)
+          (define-key paxedit-mode-map (kbd "M-b") 'paxedit-previous-symbol)
+          (define-key paxedit-mode-map (kbd "M-f") 'paxedit-next-symbol)
+          (define-key paxedit-mode-map (kbd "C-%") 'paxedit-copy)
+          (define-key paxedit-mode-map (kbd "C-&") 'paxedit-kill)
+          (define-key paxedit-mode-map (kbd "C-*") 'paxedit-delete)
+          (define-key paxedit-mode-map (kbd "C-^") 'paxedit-sexp-raise)
+          (define-key paxedit-mode-map (kbd "M-u") 'paxedit-symbol-change-case)
+          (define-key paxedit-mode-map (kbd "C-@") 'paxedit-symbol-copy)
+          (define-key paxedit-mode-map (kbd "C-#") 'paxedit-symbol-kill)))
