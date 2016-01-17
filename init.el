@@ -19,6 +19,11 @@
 (add-to-list 'load-path "~/.emacs.d/themes")
 (load-theme 'tomorrow-night-bright t)
 
+;; cider repo
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
 ;; clipboard trick!
 (setq x-select-enable-clipboard t)
 
@@ -36,6 +41,8 @@
 
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
+;; open buffer menu (opens on same window) rather than list-buffers
+(global-set-key "\C-x\C-b" 'buffer-menu)
 
 ;;; Load paxedit functionality
 ;;; need to have paxedit.el and paredit.el in the directory specified below
